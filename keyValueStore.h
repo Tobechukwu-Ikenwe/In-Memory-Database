@@ -17,16 +17,22 @@
  */
 
 
-
+// NOTE:
+//   I suggest limiting your template here because you use 2 typenames KeyType, ValueType
+//   Becuase of this you permit a user to use string, double, int, double. ETC this violates how your program suppose to work
+//   Instead just do typename T. this will enforce it bieng of the same value. If you want to keep how it is then you need to
+//   Tweak the main
 template <typename KeyType, typename ValueType>
 class keyValueStore {
     private:
+    // NOTE: mark all member vars eithier m_store or _store
     std::map<KeyType, ValueType>store; // Internal storage: map from KeyType to ValueType.
     public:
     //dataype aliases to be used in database handleAction function.
+    // NOTE: Are these used at all?
     using key = KeyType;
     using value = ValueType;
-
+   
     //member functions
     void insert(const KeyType& key, const ValueType& value);
     void remove(const KeyType& Key);
@@ -43,19 +49,19 @@ class keyValueStore {
 template <typename KeyType, typename ValueType>
 void keyValueStore<KeyType, ValueType>::insert(const KeyType& key, const ValueType& value){
 
+    // NOTE: This can be rewritten better to avoid the branching
+    //  Delete the else and add a return to exit
     if (store.count(key) > 0){ 
         std::cout << "Key already exists\n"; 
-
+        return;
     } 
-    else
-    {
-        store[key] = value; 
-    }
-
+   
+    store[key] = value; 
 }
 
 template <typename KeyType, typename ValueType>
 void keyValueStore<KeyType, ValueType>::remove(const KeyType& key){
+    // NOTE: Same as above
     if (store.count(key) > 0) 
     {
         store.erase(key);
@@ -63,7 +69,7 @@ void keyValueStore<KeyType, ValueType>::remove(const KeyType& key){
     else
     {
         std::cout << "Key does not exist\n"; 
-    } 
+    }  
 }
 
 template <typename KeyType, typename ValueType>
@@ -88,23 +94,23 @@ bool keyValueStore<KeyType, ValueType>::search(const KeyType &key, ValueType &va
         return true;
         
     }
-    else{
-        return false;
-    }
-
+    // NOTE: just return false outside no need to add the else
+    // When a function hits a return it automatically exits so no need for the else
+    
+   return false;
 }
 
 template<typename KeyType, typename ValueType>
 void keyValueStore<KeyType, ValueType>::display(){
+    // NOTE: same as above
     if (store.empty())
     {
         std::cout << "No key-value pairs in Database\n";
+        return;
     }
-    else
-    {
-        for (auto it = store.begin(); it != store.end(); it++) {
-        std::cout << it->first << ":" << it->second << std::endl;
-    }
+
+        for (auto it = store.begin(); it != store.end(); it++)
+            std::cout << it->first << ":" << it->second << std::endl;
 
 }
 }
