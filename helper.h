@@ -11,6 +11,8 @@
 //   a string, double, float, string_view, etc version of this it just adds more size to your binary
 //
 //
+
+// NOTE: if you do get rid of this template mark it inline to prevent ODR violations
 template<typename T>
 void readInput(T& var){
     // NOTE: What happens if you can not read the value I Suggest throw an error or some sort of error
