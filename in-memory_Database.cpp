@@ -2,11 +2,16 @@
 #include "keyValueStore.h"
 #include "helper.h"
 
+// NOTE:
+//   Why use a template here?
+//   Instead highly suggest by referencing it
+//   Database& db
 template<typename DB>
 bool handleAction(DB& database){
     typename DB::key key;
     typename DB::value value;
 
+    // NOTE: zero intialize no garbage values
     int action;   //Declare an Integer action to take in users choice of operation.
     std::cout << "1. Insert key-value pair\n";
     std::cout << "2. Remove key-value pair\n";
@@ -50,7 +55,9 @@ bool handleAction(DB& database){
             readInput(key);
             if (database.search(key, value)) {
                 std::cout << "Value: " << value << "\n";
-            } else {
+            } 
+            // NOTE: Remove else
+            else {
                 std::cout << "Key not found\n";
             }
             break;
@@ -80,8 +87,10 @@ int main(){
     keyValueStore<std::string, std::string> database3;
 
 
+    // NOTE: Zero intialize
     int choice;  //Declare an Integer choice to take in users choice of database type.
     int action;  //Declare an Integer that will be used by the database objects.
+    
     bool running = true;
     while(running){  //The code inside while loop keeps running.
         std::cout << "Welcome to your in-Memory Database\n";
